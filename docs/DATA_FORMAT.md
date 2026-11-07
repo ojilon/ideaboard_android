@@ -118,7 +118,7 @@ Images are exported inline so the file is self-contained. `dataBase64` is the ra
 {
   "theme": "light",            // light | dark
   "noteFont": "hand",          // hand | sans
-  "bgDim": 0.82,               // 0..1 opacity of the board dot grid over a background image
+  "bgDim": 0.82,               // 0..1 opacity of the board background image
   "bgBlobId": null,            // -> blobs[].id (board background image)
   "previewEnabled": false,     // sends URLs to a third-party oEmbed service when on
   "lastBackupAt": null         // epoch ms

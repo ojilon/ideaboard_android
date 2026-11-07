@@ -45,13 +45,13 @@ The first URL found in `url` or `text` becomes a link card in the **Inbox**; the
 **Limits**
 
 - GET share target only passes URL-encoded text; very long shares are truncated by the OS share sheet. Not an issue for links.
-- Navigation fallback must be enabled (`navigateFallback: 'index.html'`) or `/share-target` 404s offline. For GitHub Pages there is also `public/404.html`, which forwards the query string to the app on a first visit (before the service worker exists).
+- Navigation fallback must be enabled (`navigateFallback: 'index.html'`) or `/share-target` 404s offline. For GitHub Pages the build also emits `404.html` (a copy of the app) so the very first shared navigation works before the service worker is installed.
 - The share sheet entry only appears once Chrome has seen the manifest; if it is missing, reinstall the app.
 
 ## Link previews — what is honest and what is not
 
 - **Default (off):** no network at all. A link card shows domain, your title, your note, tags and an **Open** button.
-- **Optional (Settings → Link previews):** when on, the app calls `https://noembed.com/embed?url=…` (a public, CORS-enabled oEmbed proxy). *(Not available: the sandbox has no outbound access, but the code path is real.)* The UI states clearly that the URL leaves the device. Failures fall back silently to the default card.
+- **Optional (Settings → Link previews):** when on, the app calls `https://noembed.com/embed?url=…` (a public, CORS-enabled oEmbed proxy). The UI states clearly that the URL leaves the device. Failures fall back silently to the default card; the detail sheet then says no preview was available.
 - **No page scraping.** That requires CORS, and public sites do not allow it.
 - **X/Twitter previews usually fail.** X stopped serving oEmbed without auth for most cases, and its pages are not readable cross-origin. Expect the default card for X links — that is why the design leans on *your* title and note.
 - **No iframes.** Many sites send `X-Frame-Options: DENY` / CSP `frame-ancestors`, so an embedded preview would be a broken grey box.
@@ -77,6 +77,7 @@ VITE_BASE=/ideaboard_android/ pnpm build && pnpm preview
 
 Notes:
 
-- `404.html` is a copy of the app used by GitHub Pages for unknown paths (deep links, `/share-target`). It forwards `?query` and `#hash` to the app root and then the service worker takes over.
+- `404.html` is emitted by the build as a copy of `index.html`, so GitHub Pages serves the app (with its absolute asset URLs) for unknown paths such as `/share-target?url=…`. The app then reads the query string, saves the link, and rewrites the URL to `/#/links`; the service worker handles the same navigation afterwards.
+- `VITE_BASE` is passed at build time, so the manifest, service worker scope, icons and `share_target.action` all point at `/<repo>/`.
 - If you use a custom domain or a user site (`<user>.github.io`), build with the default base `/` instead.
 - GitHub Pages always serves HTTPS, which is required for the service worker and installability.

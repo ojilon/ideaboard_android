@@ -36,6 +36,8 @@ Why the SVG is screen-fixed: a scaled SVG root with negative coordinates is frag
 
 Notes/regions/images/links are DOM because they hold selectable text, inputs, and images — cheap to hit-test and good for accessibility. Connectors and pen strokes are one SVG layer because they are just paths and would be pointless as DOM.
 
+Connectors are drawn edge-to-edge between item centres as a shallow quadratic curve with a dotted 2px stroke and a small arrowhead (the design references show a curve; the requirement is that they follow the items, which they do — only endpoint ids are stored).
+
 ## Coordinates
 
 World space is CSS pixels, y down, 1× = 100% zoom. An item's `x/y` is its top-left corner *before* rotation; `rot` is degrees around the item centre. `view = {x, y, scale}` maps world → screen: `screen = world * scale + {x, y}`. New items are placed at the centre of the visible viewport, so they always land where you are looking.
