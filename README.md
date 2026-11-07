@@ -43,11 +43,11 @@ Everything you type stays in your browser's IndexedDB. The only network requests
 | `src/lib/` | model, IndexedDB, store (autosave + undo), export/import, URL parsing, PWA helpers |
 | `src/views/` | Boards, Board (canvas), Links, Settings screens |
 | `src/components/chrome.ts` | bottom nav, banners, board thumbnails |
-| `src/board/…` | (folded into `views/board.ts`: gestures, item DOM, SVG overlay) |
 | `tests/` | pure-logic tests for URLs, bulk paste, dates, file validation |
 | `scripts/icons.mjs` | dependency-free PNG icon renderer |
 | `scripts/smoke-dom.mjs` | optional DOM smoke test (see below) |
-| `docs/` | architecture, data format, roadmap, PWA notes, designs |
+| `docs/` | architecture, data format, roadmap, PWA notes |
+| `docs/designs/` | the design references the UI follows |
 
 ## Verification
 
