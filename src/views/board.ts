@@ -640,6 +640,7 @@ export function renderBoardView(
       }
     });
     node.replaceChildren(textarea);
+    updateContextBar();
     textarea.focus({ preventScroll: true });
     textarea.setSelectionRange(textarea.value.length, textarea.value.length);
     toolbar.style.display = 'none';

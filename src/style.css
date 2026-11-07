@@ -426,6 +426,11 @@ h3 {
   height: auto;
 }
 
+.empty-state > svg {
+  width: min(78%, 260px);
+  height: auto;
+}
+
 .install-card {
   border: 1px solid var(--line);
   background: var(--bg-elev);
