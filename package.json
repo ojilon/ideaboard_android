@@ -1,0 +1,23 @@
+{
+  "name": "ideaboard-android",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Local-first PWA for capturing ideas and links on a phone",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "icons": "node scripts/icons.mjs"
+  },
+  "dependencies": {
+    "idb": "^8.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vite-plugin-pwa": "^0.20.5"
+  }
+}
