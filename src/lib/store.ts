@@ -153,8 +153,8 @@ export class Store {
     }
   }
 
-  private bump(count = 1): void {
-    this.changesSinceBackup += count;
+  /** Notify listeners; the change counter is bumped once per successful save batch. */
+  private bump(): void {
     this.emit();
   }
 
@@ -202,8 +202,12 @@ export class Store {
           if (value !== undefined) await target.put(value as never);
         }
       }
-      await tx.objectStore('meta').put({ key: 'changesSinceBackup', value: this.changesSinceBackup });
+      const hadChanges = [...batch.values()].some((d) => d.put.size > 0 || d.del.size > 0);
+      await tx
+        .objectStore('meta')
+        .put({ key: 'changesSinceBackup', value: this.changesSinceBackup + (hadChanges ? 1 : 0) });
       await tx.done;
+      if (hadChanges) this.changesSinceBackup += 1;
       if (this.dbError) this.dbError = null;
     } catch (error) {
       for (const [name, d] of batch) {
